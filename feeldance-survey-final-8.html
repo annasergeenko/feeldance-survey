@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feel Dance Studio — Parent Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1410;
+    --gold: #b8966a;
+    --gold-light: #e8d5b5;
+    --cream: #faf7f2;
+    --warm-gray: #8a7f74;
+    --border: #e0d5c5;
+    --accent: #c4432a;
+  }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* Header */
+  .header {
+    background: var(--ink);
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,150,106,0.2);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 30%;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,150,106,0.12);
+  }
+
+  .header-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .header p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.55);
+    max-width: 520px;
+    font-weight: 300;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 3px;
+    background: rgba(184,150,106,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--gold);
+    transition: width 0.5s ease;
+  }
+
+  /* Content */
+  .content {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Section divider */
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 48px 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Question card */
+  .question {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 28px 28px 24px;
+    margin-bottom: 16px;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+  .question:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .question.required::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--gold);
+    border-radius: 2px 0 0 2px;
+  }
+
+  .question-label {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .question-hint {
+    font-size: 11px;
+    color: var(--warm-gray);
+    margin-bottom: 18px;
+    font-style: italic;
+  }
+
+  /* Radio / Checkbox options */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .option:hover {
+    border-color: var(--gold);
+    background: rgba(184,150,106,0.04);
+  }
+  .option input { display: none; }
+  .option.selected {
+    border-color: var(--gold);
+    background: rgba(184,150,106,0.08);
+  }
+
+  .option-dot {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .option.selected .option-dot {
+    border-color: var(--gold);
+    background: var(--gold);
+  }
+  .option.selected .option-dot::after {
+    content: '';
+    width: 6px; height: 6px;
+    background: #fff;
+    border-radius: 50%;
+  }
+
+  .option-check {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .option.selected .option-check {
+    border-color: var(--gold);
+    background: var(--gold);
+  }
+  .option.selected .option-check::after {
+    content: '✓';
+    color: #fff;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  .option-text strong {
+    display: block;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .option-text span {
+    font-size: 11px;
+    color: var(--warm-gray);
+  }
+
+  /* Scale */
+  .scale-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--warm-gray);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+  .scale-btn {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: #fff;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--ink);
+  }
+  .scale-btn:hover { border-color: var(--gold); }
+  .scale-btn.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+
+  /* Textarea */
+  .question textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    transition: border-color 0.15s;
+    background: var(--cream);
+  }
+  .question textarea:focus { border-color: var(--gold); }
+
+  /* Commitment box */
+  .commitment-box {
+    background: var(--ink);
+    color: #fff;
+    padding: 24px 28px;
+    border-radius: 2px;
+    margin: 32px 0;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .commitment-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 12px;
+    color: var(--gold-light);
+  }
+  .commitment-box ul {
+    list-style: none;
+    padding: 0;
+  }
+  .commitment-box ul li {
+    padding-left: 16px;
+    position: relative;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 6px;
+  }
+  .commitment-box ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+
+  /* Submit */
+  .submit-area {
+    text-align: center;
+    margin-top: 48px;
+  }
+  .submit-btn {
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 16px 48px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .submit-btn:hover {
+    background: var(--gold);
+  }
+
+  /* Footer note */
+  .footer-note {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 11px;
+    color: var(--warm-gray);
+    font-style: italic;
+  }
+
+  @media (max-width: 480px) {
+    .header { padding: 36px 20px 32px; }
+    .content { padding: 28px 16px 60px; }
+    .question { padding: 20px 18px; }
+    .scale-btn { width: 34px; height: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">Feel Dance Studio · Mountain View</div>
+  <h1>Understanding Your<br><em>Goals & Expectations</em></h1>
+  <p>This short survey helps us align our teaching approach with what matters most to you and your child. There are no right or wrong answers.</p>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<div class="content">
+
+  <!-- SECTION 0 -->
+  <div class="section-title">Contact Information</div>
+
+  <div class="question" style="display:flex; flex-direction:column; gap:16px;">
+    <div>
+      <div class="question-label" style="margin-bottom:8px;">Parent / Guardian name <span style="color:var(--accent)">*</span></div>
+      <input id="parentName" type="text" placeholder="Your full name"
+        style="width:100%;border:1px solid var(--border);border-radius:2px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;"
+        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+    </div>
+    <div>
+      <div class="question-label" style="margin-bottom:8px;">Email <span style="color:var(--accent)">*</span></div>
+      <input id="parentEmail" type="email" placeholder="your@email.com"
+        style="width:100%;border:1px solid var(--border);border-radius:2px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;"
+        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+    </div>
+    <div>
+      <div class="question-label" style="margin-bottom:8px;">Child's name <span style="color:var(--accent)">*</span></div>
+      <input id="childName" type="text" placeholder="Child's full name"
+        style="width:100%;border:1px solid var(--border);border-radius:2px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;"
+        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+    </div>
+    <div>
+      <div class="question-label" style="margin-bottom:8px;">Child's age</div>
+      <input id="childAge" type="number" min="3" max="18" placeholder="e.g. 8"
+        style="width:100px;border:1px solid var(--border);border-radius:2px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;"
+        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+    </div>
+    <div>
+      <div class="question-label" style="margin-bottom:8px;">Phone (WhatsApp)</div>
+      <input id="parentPhone" type="tel" placeholder="+1 (650) 000-0000"
+        style="width:100%;border:1px solid var(--border);border-radius:2px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;"
+        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section-title">About Your Child</div>
+
+  <div class="question required">
+    <div class="question-label">1. What is your child's primary reason for taking dance lessons?</div>
+    <div class="question-hint">Choose the one that feels most true right now.</div>
+    <div class="options" data-type="radio" data-q="1">
+      <div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Fun & social activity</strong>
+          <span>Enjoyment, making friends, building confidence</span>
+        </div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Physical development</strong>
+          <span>Coordination, posture, fitness, discipline</span>
+        </div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Competitive dancing</strong>
+          <span>Training seriously, placing at competitions, pursuing rankings</span>
+        </div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Not sure yet</strong>
+          <span>We want to explore and see what fits</span>
+        </div>
+      </div></div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-title">Competitions & Tournaments</div>
+
+  <div class="question required">
+    <div class="question-label">2. Do you want your child to participate in dance competitions?</div>
+    <div class="options" data-type="radio" data-q="2">
+      <div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Yes, that's a key goal</strong>
+          <span>We're motivated by tournaments and want to compete regularly</span>
+        </div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Maybe someday</strong>
+          <span>Open to it once the child is more confident and ready</span>
+        </div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Not a priority</strong>
+          <span>We prefer a recreational approach without the pressure of competing</span>
+        </div>
+      </div></div>
+  </div>
+
+  <div class="question">
+    <div class="question-label">3. If you answered "Yes" to competitions — what does success look like to you?</div>
+    <div class="question-hint">Select all that apply.</div>
+    <div class="options" data-type="checkbox" data-q="3">
+      <div class="option">
+        <div class="option-check"></div>
+        <div class="option-text"><strong>Placing / winning at local competitions</strong></div>
+      </div><div class="option">
+        <div class="option-check"></div>
+        <div class="option-text"><strong>Qualifying for regional or national events</strong></div>
+      </div><div class="option">
+        <div class="option-check"></div>
+        <div class="option-text"><strong>Gaining stage experience and confidence</strong></div>
+      </div><div class="option">
+        <div class="option-check"></div>
+        <div class="option-text"><strong>Just participating — the result is secondary</strong></div>
+      </div></div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-title">Training Track</div>
+
+  <!-- Track cards -->
+  <style>
+    .tracks { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .track-card {
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 28px 28px 24px;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: #fff;
+      position: relative;
+    }
+    .track-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 6px 28px rgba(0,0,0,0.07);
+      transform: translateY(-1px);
+    }
+    .track-card.selected {
+      border-color: var(--gold);
+      background: rgba(184,150,106,0.04);
+    }
+    /* Scholarship — warm gold luxury */
+    .track-card[onclick*="scholarship"] {
+      background: #fdf8f0;
+      border-color: var(--gold-light);
+      box-shadow: 0 8px 40px rgba(184,150,106,0.18), 0 2px 8px rgba(184,150,106,0.08);
+      padding-top: 0;
+      overflow: hidden;
+    }
+    .track-card[onclick*="scholarship"]::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+    }
+    .track-card[onclick*="scholarship"] .track-badge {
+      margin-top: 28px;
+      display: inline-block;
+    }
+    .track-card[onclick*="scholarship"]:hover {
+      box-shadow: 0 16px 52px rgba(184,150,106,0.26), 0 4px 12px rgba(184,150,106,0.1);
+      transform: translateY(-2px);
+      border-color: var(--gold);
+    }
+    .track-card[onclick*="scholarship"].selected {
+      border-color: var(--gold);
+      background: #fdf8f0;
+      box-shadow: 0 16px 52px rgba(184,150,106,0.26);
+    }
+    .track-card[onclick*="scholarship"] .track-name { color: var(--ink); }
+    .track-card[onclick*="scholarship"] .track-price strong { color: var(--ink); font-size: 14px; }
+    .track-card.selected::before {
+      content: '✓';
+      position: absolute;
+      top: 16px; right: 18px;
+      width: 22px; height: 22px;
+      background: var(--gold);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .track-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .badge-fun { background: transparent; color: var(--warm-gray); border: 1px solid var(--border); }
+    .badge-comp { background: #e8eef8; color: #2a4a8a; }
+    .badge-scholar { background: #fdf3e3; color: #8a5a1a; }
+    .track-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+    .track-tagline {
+      font-size: 12px;
+      color: var(--warm-gray);
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+    .track-includes {
+      list-style: none;
+      padding: 0;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-top: 4px;
+    }
+    .track-includes li {
+      font-size: 12px;
+      color: var(--ink);
+      padding: 3px 0 3px 16px;
+      position: relative;
+    }
+    .track-includes li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 11px;
+    }
+    .track-price {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--warm-gray);
+    }
+    .track-price strong { color: var(--ink); font-size: 13px; }
+    .scholarship-note {
+      background: #fffbf5;
+      border: 1px solid var(--gold-light);
+      border-left: 3px solid var(--gold);
+      border-radius: 2px;
+      padding: 14px 16px;
+      font-size: 11px;
+      color: var(--warm-gray);
+      line-height: 1.7;
+      margin-top: 10px;
+    }
+    .scholarship-note strong { color: var(--ink); }
+  </style>
+
+  <div class="question required" style="padding-bottom:20px;">
+    <div class="question-label">4. Which training track fits your goals?</div>
+    <div class="question-hint">Read each option carefully — they differ in commitment level and pricing.</div>
+
+    <div class="tracks" id="trackCards">
+
+      <div class="track-card" onclick="selectTrack(this, 'explorers')">
+        <div class="track-badge badge-fun">Fun Track</div>
+        <div class="track-name">Explorers</div>
+        <div class="track-tagline">Dance for joy, confidence, and love of movement</div>
+        <ul class="track-includes">
+          <li>All group classes</li>
+          <li>at least 1 private lesson per week</li>
+          <li>No competition requirement</li>
+        </ul>
+      </div>
+
+      <div class="track-card" onclick="selectTrack(this, 'competitors')">
+        <div class="track-badge badge-comp">Competition Track</div>
+        <div class="track-name">Competitors</div>
+        <div class="track-tagline">Ready to step on the floor and earn results</div>
+        <ul class="track-includes">
+          <li>All group classes</li>
+          <li>at least 2 private lessons per week</li>
+          <li>Tournament participation (when ready)</li>
+          <li>Consistent attendance &amp; home practice expected</li>
+        </ul>
+      </div>
+
+      <div class="track-card" onclick="selectTrack(this, 'scholarship')">
+        <div class="track-badge badge-scholar">Scholarship Track</div>
+        <div class="track-name">Scholarship Athletes</div>
+        <div class="track-tagline">Full commitment. Full support. Discounted rate.</div>
+        <ul class="track-includes">
+          <li>All group classes</li>
+          <li>at least 2 private lessons per week</li>
+          <li>at least 1 stretching &amp; conditioning session per week</li>
+          <li>Active competition calendar</li>
+          <li>Home practice is mandatory, not optional</li>
+        </ul>
+        <div class="track-price">Private lesson rate: <strong>$85/lesson</strong> (scholarship rate)</div>
+        <div class="scholarship-note">
+          <strong>Scholarship conditions:</strong> This rate is available only when <em>all</em> track requirements are met every week — all group classes attended, both private lessons taken, and the conditioning session completed. <strong>If any condition is not met in a given week, the standard lesson rate applies.</strong> The scholarship is a privilege, not a default.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="question required">
+    <div class="question-label">5. Will your child practice at home between lessons?</div>
+    <div class="options" data-type="radio" data-q="5">
+      <div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text"><strong>Yes, regularly</strong><span>We'll make time for home practice</span></div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text"><strong>Occasionally</strong><span>When time allows</span></div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text"><strong>Probably not</strong><span>We rely on studio lessons only</span></div>
+      </div></div>
+  </div>
+
+  <div class="question required">
+    <div class="question-label">6. How involved do you plan to be in your child's dance journey?</div>
+    <div class="options" data-type="radio" data-q="6">
+      <div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Fully involved</strong>
+          <span>Attending competitions, helping with practice, staying in close contact with the instructor</span>
+        </div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Supportive but hands-off</strong>
+          <span>We trust the instructor to lead — we show up and encourage</span>
+        </div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text">
+          <strong>Minimal involvement</strong>
+          <span>Drop-off / pick-up only</span>
+        </div>
+      </div></div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section-title">Your Child's Other Activities</div>
+
+  <div class="question">
+    <div class="question-label">7. What other activities does your child currently do outside of Feel Dance Studio?</div>
+    <div class="question-hint">List each activity and approximate hours per week. Be as honest as possible — this helps us understand the full picture.</div>
+
+    <style>
+      .activity-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+      .activity-table th {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--warm-gray);
+        text-align: left;
+        padding: 0 8px 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      .activity-table td { padding: 6px 8px; }
+      .activity-table input[type="text"],
+      .activity-table input[type="number"] {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        padding: 8px 10px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        color: var(--ink);
+        background: var(--cream);
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      .activity-table input:focus { border-color: var(--gold); }
+      .add-row-btn {
+        background: none;
+        border: 1px dashed var(--border);
+        border-radius: 2px;
+        padding: 8px 16px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 12px;
+        color: var(--warm-gray);
+        cursor: pointer;
+        margin-top: 10px;
+        transition: all 0.15s;
+        width: 100%;
+      }
+      .add-row-btn:hover { border-color: var(--gold); color: var(--gold); }
+      .activity-warning {
+        display: none;
+        margin-top: 16px;
+        background: #fff8f0;
+        border: 1px solid #e8b87a;
+        border-left: 3px solid var(--accent);
+        border-radius: 2px;
+        padding: 14px 16px;
+        font-size: 12px;
+        line-height: 1.7;
+        color: var(--ink);
+      }
+      .activity-warning strong { color: var(--accent); }
+    </style>
+
+    <table class="activity-table" id="activityTable">
+      <thead>
+        <tr>
+          <th style="width:55%">Activity</th>
+          <th style="width:30%">Hours / week</th>
+        </tr>
+      </thead>
+      <tbody id="activityRows">
+        <tr>
+          <td><input type="text" placeholder="e.g. Ballet, Soccer, Piano…"></td>
+          <td><input type="number" min="0" max="40" placeholder="hrs" oninput="checkActivityHours()"></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="Activity"></td>
+          <td><input type="number" min="0" max="40" placeholder="hrs" oninput="checkActivityHours()"></td>
+        </tr>
+        <tr>
+          <td><input type="text" placeholder="Activity"></td>
+          <td><input type="number" min="0" max="40" placeholder="hrs" oninput="checkActivityHours()"></td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="add-row-btn" onclick="addActivityRow()">+ Add another activity</button>
+
+    <div class="activity-warning" id="activityWarning">
+      <strong>Something to consider.</strong> Your child's schedule shows significant hours in other activities. 
+      Competitive ballroom dancing requires sport-specific neuromuscular training — hours in ballet, gymnastics, or other disciplines <em>do not transfer</em> to ballroom results. 
+      The Scholarship Athletes track is designed for students whose <strong>primary athletic commitment is ballroom</strong>. 
+      If ballroom hours are significantly lower than other activities, we'll need to discuss realistic expectations together before placing your child on a competitive track.
+    </div>
+  </div>
+
+  <div class="question required">
+    <div class="question-label">8. How many hours per week do you expect your child to dedicate specifically to ballroom dancing (lessons + practice)?</div>
+    <div class="options" data-type="radio" data-q="8">
+      <div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text"><strong>1–2 hours</strong><span>Studio lessons only, no extra practice</span></div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text"><strong>3–5 hours</strong><span>Lessons + some practice at home</span></div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text"><strong>6–9 hours</strong><span>Serious commitment, regular practice</span></div>
+      </div><div class="option">
+        <div class="option-dot"></div>
+        <div class="option-text"><strong>10+ hours</strong><span>Ballroom is the primary focus</span></div>
+      </div></div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section-title">Expectations & Communication</div>
+
+  <div class="question required">
+    <div class="question-label">9. How important is regular feedback from the instructor to you?</div>
+    <div class="question-hint">1 = not important at all &nbsp;·&nbsp; 5 = very important</div>
+    <div class="scale-wrap" data-type="scale" data-q="7">
+      <button type="button" class="scale-btn" onclick="selectScale(this, '7')">1</button>
+      <button type="button" class="scale-btn" onclick="selectScale(this, '7')">2</button>
+      <button type="button" class="scale-btn" onclick="selectScale(this, '7')">3</button>
+      <button type="button" class="scale-btn" onclick="selectScale(this, '7')">4</button>
+      <button type="button" class="scale-btn" onclick="selectScale(this, '7')">5</button>
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-label">10. Is there anything specific you are worried about or want us to know?</div>
+    <div class="question-hint">Optional — but very helpful for us.</div>
+    <textarea placeholder="E.g. my child is shy, we have a tight schedule, we're not sure about the cost of competitions…"></textarea>
+  </div>
+
+  <div class="question">
+    <div class="question-label">11. What would make you feel that this studio was the right fit for your family?</div>
+    <textarea placeholder="Your answer helps us understand what matters most to you…"></textarea>
+  </div>
+
+  <div class="submit-area">
+
+    <style>
+      .ack-box {
+        background: var(--ink);
+        color: rgba(255,255,255,0.75);
+        border-radius: 2px;
+        padding: 28px 28px 24px;
+        text-align: left;
+        margin-bottom: 28px;
+        font-size: 12px;
+        line-height: 1.8;
+      }
+      .ack-box h3 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 20px;
+        font-weight: 400;
+        color: #fff;
+        margin-bottom: 14px;
+      }
+      .ack-check-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 16px;
+        cursor: pointer;
+      }
+      .ack-check-row input { display: none; }
+      .ack-box-check {
+        width: 18px; height: 18px;
+        border: 1.5px solid rgba(255,255,255,0.3);
+        border-radius: 2px;
+        flex-shrink: 0;
+        margin-top: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.15s;
+      }
+      .ack-check-row.checked .ack-box-check {
+        background: var(--gold);
+        border-color: var(--gold);
+      }
+      .ack-check-row.checked .ack-box-check::after {
+        content: '✓';
+        color: #fff;
+        font-size: 11px;
+      }
+      .ack-check-row span { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+      .ack-check-row.checked span { color: rgba(255,255,255,0.9); }
+    </style>
+
+    <div class="ack-box">
+      <h3>Before you submit</h3>
+      <p>Competition results in ballroom dancing are directly tied to the number of <em>ballroom-specific</em> hours per week. Time in other disciplines — ballet, gymnastics, soccer — does not substitute for this. The Scholarship Athletes track is reserved for students whose primary athletic commitment is ballroom dancing at Feel Dance Studio.</p>
+
+      <div class="ack-check-row" id="ackRow1" onclick="toggleAck(this)">
+        <div class="ack-box-check"></div>
+        <span>Competition results depend on ballroom-specific training hours — not on time spent in other sports or dance disciplines.</span>
+      </div>
+
+      <div class="ack-check-row" id="ackRow2" onclick="toggleAck(this)">
+        <div class="ack-box-check"></div>
+        <span>The Scholarship rate ($85/lesson) applies only when all track requirements are fully met every week — no exceptions.</span>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="handleSubmit()">Submit Survey</button>
+    <div class="footer-note">Feel Dance Studio · feeldance.team · Mountain View, CA</div>
+  </div>
+
+</div>
+
+<script>
+  // Radio / checkbox selection
+  document.querySelectorAll('.options').forEach(group => {
+    const type = group.dataset.type;
+    group.querySelectorAll('.option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        if (type === 'radio') {
+          group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+        } else {
+          opt.classList.toggle('selected');
+        }
+        updateProgress();
+      });
+    });
+  });
+
+  function selectScale(btn, q) {
+    const wrap = btn.closest('.scale-wrap');
+    wrap.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const required = document.querySelectorAll('.question.required');
+    let answered = 0;
+    required.forEach(q => {
+      const hasRadio = q.querySelector('.option.selected');
+      const hasScale = q.querySelector('.scale-btn.active');
+      if (hasRadio || hasScale) answered++;
+    });
+    const pct = (answered / required.length) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+  }
+
+  function selectTrack(card, val) {
+    document.querySelectorAll('.track-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    card.dataset.selected = val;
+    updateProgress();
+  }
+
+  function toggleAck(el) {
+    el.classList.toggle('checked');
+  }
+
+  function addActivityRow() {
+    const tbody = document.getElementById('activityRows');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" placeholder="Activity"></td>
+      <td><input type="number" min="0" max="40" placeholder="hrs" oninput="checkActivityHours()"></td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  function checkActivityHours() {
+    const inputs = document.querySelectorAll('#activityRows input[type="number"]');
+    let total = 0;
+    inputs.forEach(i => { total += parseFloat(i.value) || 0; });
+    const warning = document.getElementById('activityWarning');
+    warning.style.display = total >= 6 ? 'block' : 'none';
+  }
+
+  // ─── CONFIGURATION ───────────────────────────────────────────────
+  // Paste your Google Apps Script Web App URL here after deployment:
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUqUNSESqZcWIjRYzTRRPSxPd5kTNuHLo829rabxk3n-stnD3CxT1lxldKMPu4Bbma-A/exec';
+  // ─────────────────────────────────────────────────────────────────
+
+  function collectFormData() {
+    const data = {};
+
+    // Q1 – reason
+    const q1 = document.querySelector('.options[data-q="1"] .option.selected .option-text strong');
+    data['1_reason'] = q1 ? q1.textContent.trim() : '';
+
+    // Q2 – competitions
+    const q2 = document.querySelector('.options[data-q="2"] .option.selected .option-text strong');
+    data['2_competitions'] = q2 ? q2.textContent.trim() : '';
+
+    // Q3 – success (checkboxes)
+    const q3 = document.querySelectorAll('.options[data-q="3"] .option.selected .option-text strong');
+    data['3_success'] = Array.from(q3).map(el => el.textContent.trim()).join('; ');
+
+    // Q4 – track
+    const selectedTrack = document.querySelector('.track-card.selected');
+    data['4_track'] = selectedTrack ? selectedTrack.querySelector('.track-name').textContent.trim() : '';
+
+    // Q5 – home practice
+    const q5 = document.querySelector('.options[data-q="5"] .option.selected .option-text strong');
+    data['5_home_practice'] = q5 ? q5.textContent.trim() : '';
+
+    // Q6 – involvement
+    const q6 = document.querySelector('.options[data-q="6"] .option.selected .option-text strong');
+    data['6_involvement'] = q6 ? q6.textContent.trim() : '';
+
+    // Q7 – activities table
+    const rows = document.querySelectorAll('#activityRows tr');
+    const activities = [];
+    rows.forEach(row => {
+      const name = row.querySelector('input[type="text"]')?.value.trim();
+      const hrs  = row.querySelector('input[type="number"]')?.value.trim();
+      if (name) activities.push(name + (hrs ? ' (' + hrs + ' hrs)' : ''));
+    });
+    data['7_other_activities'] = activities.join('; ');
+
+    // Q8 – ballroom hours
+    const q8 = document.querySelector('.options[data-q="8"] .option.selected .option-text strong');
+    data['8_ballroom_hours'] = q8 ? q8.textContent.trim() : '';
+
+    // Q9 – feedback scale
+    const q9 = document.querySelector('.scale-wrap[data-q="7"] .scale-btn.active');
+    data['9_feedback_importance'] = q9 ? q9.textContent.trim() : '';
+
+    // Q10 – worries
+    const textareas = document.querySelectorAll('textarea');
+    data['10_worries']   = textareas[0]?.value.trim() || '';
+    data['11_right_fit'] = textareas[1]?.value.trim() || '';
+
+    // Acknowledgements
+    data['ack1'] = document.getElementById('ackRow1').classList.contains('checked') ? 'Yes' : 'No';
+    data['ack2'] = document.getElementById('ackRow2').classList.contains('checked') ? 'Yes' : 'No';
+
+    // Contact
+    data['parent_name']  = document.getElementById('parentName')?.value.trim() || '';
+    data['parent_email'] = document.getElementById('parentEmail')?.value.trim() || '';
+    data['parent_phone'] = document.getElementById('parentPhone')?.value.trim() || '';
+    data['child_name']   = document.getElementById('childName')?.value.trim() || '';
+    data['child_age']    = document.getElementById('childAge')?.value.trim() || '';
+
+    // Timestamp
+    data['submitted_at'] = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+
+    return data;
+  }
+
+  async function handleSubmit() {
+    // Validate required acknowledgements
+    // Validate contact fields
+    const parentName = document.getElementById('parentName')?.value.trim();
+    const parentEmail = document.getElementById('parentEmail')?.value.trim();
+    const childName = document.getElementById('childName')?.value.trim();
+    if (!parentName || !parentEmail || !childName) {
+      alert('Please fill in your name, email, and child\'s name.');
+      document.getElementById('parentName').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Validate all required radio/checkbox questions
+    const requiredChecks = [
+      { q: '1', label: 'Q1 — reason for lessons' },
+      { q: '2', label: 'Q2 — competitions' },
+      { q: '5', label: 'Q5 — home practice' },
+      { q: '6', label: 'Q6 — parent involvement' },
+      { q: '8', label: 'Q8 — ballroom hours per week' },
+    ];
+    for (const check of requiredChecks) {
+      const answered = document.querySelector(`.options[data-q="${check.q}"] .option.selected`);
+      if (!answered) {
+        alert(`Please answer: ${check.label}`);
+        document.querySelector(`.options[data-q="${check.q}"]`).closest('.question').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+    }
+
+    // Validate track selection (Q4)
+    if (!document.querySelector('.track-card.selected')) {
+      alert('Please select a training track (Q4).');
+      document.getElementById('trackCards').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // Validate scale (Q9)
+    if (!document.querySelector('.scale-btn.active')) {
+      alert('Please answer Q9 — feedback importance.');
+      document.querySelector('.scale-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const ack1 = document.getElementById('ackRow1').classList.contains('checked');
+    const ack2 = document.getElementById('ackRow2').classList.contains('checked');
+    if (!ack1 || !ack2) {
+      alert('Please check both acknowledgements before submitting.');
+      return;
+    }
+
+    if (!SCRIPT_URL || SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+      alert('⚠️ Form not connected yet.\n\nAdd the Google Apps Script URL to the SCRIPT_URL variable in the HTML file.');
+      return;
+    }
+
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    const data = collectFormData();
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      // Show thank-you state
+      document.querySelector('.content').innerHTML = `
+        <div style="text-align:center; padding: 80px 24px;">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:48px; color:var(--gold); margin-bottom:16px;">✓</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:400; margin-bottom:16px;">Thank you!</h2>
+          <p style="font-size:14px; color:var(--warm-gray); line-height:1.8; max-width:400px; margin:0 auto;">
+            Your survey has been submitted. We'll review your answers and be in touch soon.<br><br>
+            <em>— Feel Dance Studio team</em>
+          </p>
+        </div>`;
+    } catch (err) {
+      btn.textContent = 'Submit Survey';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again or contact us directly.');
+      console.error(err);
+    }
+  }
+</script>
+</body>
+</html>
